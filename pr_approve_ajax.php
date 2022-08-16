@@ -21,7 +21,7 @@
          }
         }
         if($next_step == 8) {
-            $query = "UPDATE submitted_pr SET status = 'Approve', pr_step = 8, pr_status = 1, level8_date = '" . date("Y-m-d h:i:sa") . "' WHERE id = " . $id;
+            $query = "UPDATE submitted_pr SET status = 'Approve', pr_step = 8, pr_status = 1, level8_date = '" . date("Y-m-d h:i:sa") . "', level7_date = '" . date("Y-m-d h:i:sa") . "' WHERE id = " . $id;
         } else {
             $approve_date = "level" . $level . "_date = '" . date("Y-m-d h:i:sa") . "'";
             $query = "UPDATE submitted_pr SET pr_step = " . $next_step . ", pr_status = 0, pr_reporting_to = '" . $pr_reporting_to . "', " . $approve_date . " WHERE id = " . $id;
@@ -35,31 +35,61 @@
         }
         break;
     case "reject":
-        if($_FILES["fileToUploadReject"]["name"]) {
-            $target_dir = "upload/purchase/";
-            $target_file_name = time() . '-' . basename($_FILES["fileToUploadReject"]["name"]);
-            $target_file = $target_dir . $target_file_name;
-
-            if (move_uploaded_file($_FILES["fileToUploadReject"]["tmp_name"], $target_file)) {
-                $attach = stripslashes($target_file_name);
-                $attach = mysqli_real_escape_string($con,$attach);
+        $text = $_POST['text'];
+        if (isset($_FILES["fileToUploadReject"])) {
+            if($_FILES["fileToUploadReject"]["name"]) {
+                $target_dir = "upload/purchase/";
+                $target_file_name = time() . '-' . basename($_FILES["fileToUploadReject"]["name"]);
+                $target_file = $target_dir . $target_file_name;
+    
+                if (move_uploaded_file($_FILES["fileToUploadReject"]["tmp_name"], $target_file)) {
+                    $attach = stripslashes($target_file_name);
+                    $attach = mysqli_real_escape_string($con,$attach);
+                } 
+            } else {
+                $attach = "";
             } 
         } else {
             $attach = "";
-        }        
+        }
+
+        $approve_date = "level" . $level . "_date = '" . date("Y-m-d h:i:sa") . "'";
+        $query = "UPDATE submitted_pr SET pr_status = 2, reject_attach = '" . $attach . "', reject_text = '" . $text . "', " . $approve_date ."  WHERE id = " . $id;
+
+        $result = mysqli_query($con, $query);
+        if($result) {
+            echo json_encode(1);
+        } else {
+            echo json_encode(0);
+        }
         break;
     case "request":
-        if($_FILES["fileToUploadRequest"]["name"]) {
-            $target_dir = "upload/purchase/";
-            $target_file_name = time() . '-' . basename($_FILES["fileToUploadRequest"]["name"]);
-            $target_file = $target_dir . $target_file_name;
-
-            if (move_uploaded_file($_FILES["fileToUploadRequest"]["tmp_name"], $target_file)) {
-                $attach = stripslashes($target_file_name);
-                $attach = mysqli_real_escape_string($con,$attach);
+        $text = $_POST['text'];
+        if (isset($_FILES["fileToUploadRequest"])) {
+            if($_FILES["fileToUploadRequest"]["name"]) {
+                $target_dir = "upload/purchase/";
+                $target_file_name = time() . '-' . basename($_FILES["fileToUploadRequest"]["name"]);
+                $target_file = $target_dir . $target_file_name;
+    
+                if (move_uploaded_file($_FILES["fileToUploadRequest"]["tmp_name"], $target_file)) {
+                    $attach = stripslashes($target_file_name);
+                    $attach = mysqli_real_escape_string($con,$attach);
+                } 
+            } else {
+                $attach = "";
             } 
         } else {
             $attach = "";
+        }
+
+        $approve_date = "level" . $level . "_date = '" . date("Y-m-d h:i:sa") . "'";
+        $query = "UPDATE submitted_pr SET pr_status = 3, request_attach = '" . $attach . "', request_text = '" . $text . "', " . $approve_date ."  WHERE id = " . $id;
+
+        $result = mysqli_query($con, $query);
+        if($result) {
+            echo json_encode(1);
+        } else {
+            echo json_encode(0);
         }
         break;
    }

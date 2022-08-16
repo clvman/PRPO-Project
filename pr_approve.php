@@ -330,9 +330,9 @@
                 } else {
                   echo '<a target="_blank">' . $manager . ' (' . $dateArray[$i] . ')</a>';
                 }      
-                if($i < $pr_status) {
-                  $status = "Approved";
-                } else if($i == $pr_status) {
+                if($i < $pr_step) {
+                  $statusText = "Approved";
+                } else if($i == $pr_step) {
                   switch($pr_status) {
                     case 0: $statusText = "Pandding"; break;
                     case 1: $statusText = "Approved"; break;
@@ -472,25 +472,62 @@
         alert("Input Reject Reason");
         return;
       }
-      var data = {
-        id: $("#pr_id").val(),
-        type: "reject",
-      }
+      var file_data = $('#fileToUploadReject').prop('files')[0];   
+      console.log(file_data);
+      var form_data = new FormData(); 
+      form_data.append('fileToUploadReject', file_data);
+      form_data.append('id', $("#pr_id").val());
+      form_data.append('type', "reject");
+      form_data.append('text', $("#rejectReason").val());
 
-      $.post("pr_approve_ajax.php", data, function(res) {
-        if(res == 1) {
-          alert("This PR approved.");
-          window.location.href = "all_approves_list.php";
-        } else {
-          alert("Can't approve this PR.");
-        }
-      })
+      $.ajax({
+          url: 'pr_approve_ajax.php',
+          data: form_data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          method: 'POST',
+          type: 'POST', // For jQuery < 1.9
+          success: function(data){
+            if(data == 1) {
+              alert("This PR rejected.");
+              window.location.href = "all_approves_list.php";              
+            } else {
+              alert("Can't reject this PR");
+            }
+          }
+      });
     })
     $("#btnRequest").click(function(){
       if($("#requestMoreInfor").val().length == 0) {
         alert("Input Request More Infor");
         return;
       }
+      var file_data = $('#fileToUploadRequest').prop('files')[0];   
+      console.log(file_data);
+      var form_data = new FormData(); 
+      form_data.append('fileToUploadRequest', file_data);
+      form_data.append('id', $("#pr_id").val());
+      form_data.append('type', "request");
+      form_data.append('text', $("#requestMoreInfor").val());
+
+      $.ajax({
+          url: 'pr_approve_ajax.php',
+          data: form_data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          method: 'POST',
+          type: 'POST', // For jQuery < 1.9
+          success: function(data){
+            if(data == 1) {
+              alert("This PR requested more infor.");
+              window.location.href = "all_approves_list.php";              
+            } else {
+              alert("Can't request this PR");
+            }
+          }
+      });      
     })
   })
 </script>

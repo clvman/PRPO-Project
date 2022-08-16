@@ -39,6 +39,11 @@
          case 3: $status = "Requested more infor"; break;
          default: $status = ""; break;
       }
+      if($row['pr_status'] == 2 || $row['pr_status'] == 3) {
+
+      } else {
+         $edit = '<a href="view_purchase.php?id=' . $row['id'] . '"><i class="fas fa-eye"></i></a>';
+      }
       $array[] = array(
          "pr_code" => $row['pr_code'],
          "requester" => $row['requester'],
@@ -49,7 +54,7 @@
          "status" => $row['status'],
          "pr_step" => $row['pr_reporting_to'],
          "pr_status" => $status,
-         "edit" => '<a href="view_purchase.php?id=' . $row['id'] . '"><i class="fas fa-eye"></i></a>',
+         "edit" => $edit,
          "delete" => '<a href="#" class="trigger_btn" data-index="' . $row['id'] . '" ><i class="fas fa-trash"></i></a>'
       );
    }

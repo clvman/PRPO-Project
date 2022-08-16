@@ -333,7 +333,7 @@
                 }      
                 if($i < $pr_step) {
                   $statusText = "Approved";
-                } else if($i == $pr_status) {
+                } else if($i == $pr_step) {
                   switch($pr_status) {
                     case 0: $statusText = "Pandding"; break;
                     case 1: $statusText = "Approved"; break;
@@ -346,12 +346,12 @@
                 }       
 
                 echo '<p>status: ' . $statusText . '</p>';
-                if($pr_status == 2) {
+                if($pr_status == 2 && $pr_step == $i) {
                   echo '<p>Rejected Reason: ' . $reject_text . '</p>';
                   if(strlen( $reject_attach ) > 0) {
                     echo '<a class="btn" id="downloadA" href="upload/purchase/<?php echo $reject_attach ?>" download><i class="fa fa-download"></i>Download</a>';
                   }
-                } else if($pr_status == 3) {
+                } else if($pr_status == 3 && $pr_step == $i) {
                   echo '<p>Requested more infor: ' . $request_text . '</p>';
                   if(strlen( $request_attach ) > 0) {
                     echo '<a class="btn" id="downloadA" href="upload/purchase/<?php echo $request_attach ?>" download><i class="fa fa-download"></i>Download</a>';
@@ -360,8 +360,11 @@
               echo '</li>'; 
             } else if($i == 8) {
               echo '<li>';
-                echo '<a target="_blank">Final</a>';
-                echo '<a>' . $dateArray[8] . '</a>';
+                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
+                  echo '<a target="_blank">Final</a>';
+                } else {
+                  echo '<a target="_blank">Final (' . $dateArray[$i] . ')</a>';
+                } 
                 echo '<p>status: ' . $status . '</p>';
               echo '</li>';               
             }
