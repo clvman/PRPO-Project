@@ -112,6 +112,7 @@
                 $result=mysqli_query($con,$query);
                 while($row=mysqli_fetch_assoc($result))
                 {
+                  $id = $_GET['id'];
                   $pr_code = $row['pr_code'];
                   $requester = $row['requester'];
                   $request_date = $row['request_date'];
@@ -158,11 +159,12 @@
               }
             ?>
           </div>
+  <input hidden type="text" value=<?php echo $id?> id="pr_id" />
   <div class="kt-portlet">
     <div class="kt-portlet__head">
       <div class="kt-portlet__head-label">
-        <h3 class="kt-portlet__head-title">View Purchase</h3>
-        <h3 class="kt-portlet__head-title"><i class="fas fa-eye header-icon"></h3></i>
+        <h3 class="kt-portlet__head-title">PR Approve</h3>
+        <h3 class="kt-portlet__head-title"><i class="fas fa-check header-icon"></h3></i>
       </div>
     </div>
     <!--begin::Form-->           
@@ -282,10 +284,10 @@
         </div>
         <div class="kt-portlet__foot">
           <div class="kt-form__actions">
-            <div class="row">
-              <div class="col-lg-5"></div>
-              <div class="col-lg-7">
-              </div>
+            <div class="row d-flex justify-content-center">
+              <button class="btn btn-success ml-2 mr-2 btn-approve">Approve</button>
+              <button class="btn btn-danger  ml-2 mr-2 btn-reject" data-toggle="modal" data-target="#rejectModal">Reject</button>
+              <button class="btn btn-info  ml-2 mr-2 btn-request" data-toggle="modal" data-target="#requestModal">Request more infor</button>
             </div>
           </div>
         </div>
@@ -322,17 +324,14 @@
                   }
                 }
               }
-
               echo '<li>';
-                // echo '<a target="_blank">' . $manager . '</a>';
-                // echo '<a>' . $dateArray[$i] . '</a>';
                 if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
                   echo '<a target="_blank">' . $manager . '</a>';
                 } else {
                   echo '<a target="_blank">' . $manager . ' (' . $dateArray[$i] . ')</a>';
                 }      
-                if($i < $pr_step) {
-                  $statusText = "Approved";
+                if($i < $pr_status) {
+                  $status = "Approved";
                 } else if($i == $pr_status) {
                   switch($pr_status) {
                     case 0: $statusText = "Pandding"; break;
@@ -344,7 +343,6 @@
                 } else {
                   $statusText = "Pandding";
                 }       
-
                 echo '<p>status: ' . $statusText . '</p>';
                 if($pr_status == 2) {
                   echo '<p>Rejected Reason: ' . $reject_text . '</p>';
@@ -365,15 +363,134 @@
                 echo '<p>status: ' . $status . '</p>';
               echo '</li>';               
             }
- 
           }
         ?>
       </ul>
 		</div>
 	</div>
 </div>
-             
+
+  <!-- The Modal -->
+  <div class="modal fade" id="rejectModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group row form-group-marginless kt-margin-t-20">     
+            <label class="col-lg-2 col-form-label">Reject Reason:</label>
+            <div class="col-lg-10">
+              <textarea row="4" class="form-control" id="rejectReason"></textarea>
+            </div>                      
+          </div>
+          <div class="form-group row form-group-marginless kt-margin-t-20">
+            <label class="col-lg-2 col-form-label">Attachment:</label>
+            <div class="col-lg-10">
+              <input type="file" class="form-control" name="fileToUploadReject" id="fileToUploadReject">
+            </div>
+          </div>                    
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnReject">Reject</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End The Modal -->
+  <!-- The Modal -->
+  <div class="modal fade" id="requestModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group row form-group-marginless kt-margin-t-20">     
+            <label class="col-lg-2 col-form-label">Request more infor:</label>
+            <div class="col-lg-10">
+              <textarea row="4" class="form-control" id="requestMoreInfor"></textarea>
+            </div>                      
+          </div>
+          <div class="form-group row form-group-marginless kt-margin-t-20">
+            <label class="col-lg-2 col-form-label">Attachment:</label>
+            <div class="col-lg-10">
+              <input type="file" class="form-control" name="fileToUploadRequest" id="fileToUploadRequest">
+            </div>
+          </div>                    
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" id="btnRequest">Request more infor</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End The Modal -->
+  
 
 <?php include('includes/footer.php') ?>
-    <!--begin::Page Scripts(used by this page) -->
-    <script src="assets/js/pages/custom/users/edit.js" type="text/javascript"></script>
+<!--begin::Page Scripts(used by this page) -->
+<script src="assets/js/pages/custom/users/edit.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".btn-approve").click(function(e) {
+      e.preventDefault();
+      var data = {
+        id: $("#pr_id").val(),
+        type: "approve"
+      }
+
+      $.post("pr_approve_ajax.php", data, function(res) {
+        if(res == 1) {
+          alert("This PR approved.");
+          window.location.href = "all_approves_list.php";
+        } else {
+          alert("Can't approve this PR.");
+        }
+      })
+    })
+    $(".btn-reject").click(function(e) {
+      e.preventDefault();
+      // alert("reject");
+    })
+    $(".btn-request").click(function(e) {
+      e.preventDefault();
+      // alert("request");
+    })
+    $("#btnReject").click(function() {
+      if($("#rejectReason").val().length == 0) {
+        alert("Input Reject Reason");
+        return;
+      }
+      var data = {
+        id: $("#pr_id").val(),
+        type: "reject",
+      }
+
+      $.post("pr_approve_ajax.php", data, function(res) {
+        if(res == 1) {
+          alert("This PR approved.");
+          window.location.href = "all_approves_list.php";
+        } else {
+          alert("Can't approve this PR.");
+        }
+      })
+    })
+    $("#btnRequest").click(function(){
+      if($("#requestMoreInfor").val().length == 0) {
+        alert("Input Request More Infor");
+        return;
+      }
+    })
+  })
+</script>

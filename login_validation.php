@@ -53,7 +53,12 @@ if (isset($_POST['username'])){
     $_SESSION['last_activity'] = time(); //your last activity was now, having logged in.
     $_SESSION['expire_time'] = 14400; //expire time in seconds: 4 hours 
 
-    header("Location: add_pr.php");
+    
+    if($_SESSION['level'] > 2) {
+      header("Location: all_approves_list.php");
+    } else {
+      header("Location: add_pr.php");
+    }
   }else{
     echo 'B';
     header("Location:login.php");

@@ -10,7 +10,7 @@
 						<li class="kt-menu__item " aria-haspopup="true"><a href="all_pr.php" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text"> All Purchase </span></a></li>
 						<?php } ?>
 						<?php if($_SESSION['level'] > 1) { ?>
-							<li class="kt-menu__item " aria-haspopup="true"><a href="all_pr.php" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text"> All Approve </span></a></li>				
+							<li class="kt-menu__item " aria-haspopup="true"><a href="all_approves_list.php" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text"> All Approve </span></a></li>				
 						<?php } ?>
 					</ul>
 				</div>

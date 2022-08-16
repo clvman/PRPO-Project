@@ -135,7 +135,7 @@
 						// $level2_data = "";
 						$pr_email = $value['email'];
 						$user_level = $_SESSION['level'];
-						$user_report_to = $value['team'];
+						$user_report_to = $_SESSION['team_name'];
 						break;
 					}
 				} else if($_SESSION['level'] == 1) {
@@ -147,7 +147,7 @@
 							// $level2_data = $owner_date;
 							$pr_email = $value['email'];
 							$user_level = $_SESSION['level'];
-							$user_report_to = $value['team'];
+							$user_report_to = $_SESSION['team_name'];
 							break;
 						}
 					}
