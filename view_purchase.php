@@ -301,11 +301,14 @@
           for($i = $user_level; $i <= 8; $i++){
             if($i == $user_level) {
               echo '<li>';
-                echo '<a target="_blank">' . $requester . '</a>';
-                echo '<a class="float-right">' . $request_date . '</a>';
+                if($request_date == NULL || $request_date == "0000-00-00") {
+                  echo '<a target="_blank">' . $requester . '</a>';
+                } else {
+                  echo '<a target="_blank">' . $requester . ' (' . $request_date . ')</a>';
+                }
                 echo '<p>status: submited</p>';
               echo '</li>'; 
-            } else {
+            } else if($i < 8) {
               foreach($approvals as $value) {
                 if($value['level'] == $i) {
                   if($i == 2) {
@@ -321,8 +324,13 @@
               }
 
               echo '<li>';
-                echo '<a target="_blank">' . $manager . '</a>';
-                echo '<a class="float-right">' . $dateArray[$i] . '</a>';
+                // echo '<a target="_blank">' . $manager . '</a>';
+                // echo '<a>' . $dateArray[$i] . '</a>';
+                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
+                  echo '<a target="_blank">' . $manager . '</a>';
+                } else {
+                  echo '<a target="_blank">' . $manager . ' (' . $dateArray[$i] . ')</a>';
+                }                
                 switch($pr_status) {
                   case 0: $statusText = "Pandding"; break;
                   case 1: $statusText = "Approved"; break;
@@ -333,10 +341,22 @@
                 echo '<p>status: ' . $statusText . '</p>';
                 if($pr_status == 2) {
                   echo '<p>Rejected Reason: ' . $reject_text . '</p>';
+                  if(strlen( $reject_attach ) > 0) {
+                    echo '<a class="btn" id="downloadA" href="upload/purchase/<?php echo $reject_attach ?>" download><i class="fa fa-download"></i>Download</a>';
+                  }
                 } else if($pr_status == 3) {
                   echo '<p>Requested more infor: ' . $request_text . '</p>';
+                  if(strlen( $request_attach ) > 0) {
+                    echo '<a class="btn" id="downloadA" href="upload/purchase/<?php echo $request_attach ?>" download><i class="fa fa-download"></i>Download</a>';
+                  }                  
                 }
               echo '</li>'; 
+            } else if($i == 8) {
+              echo '<li>';
+                echo '<a target="_blank">Final</a>';
+                echo '<a>' . $dateArray[8] . '</a>';
+                echo '<p>status: ' . $status . '</p>';
+              echo '</li>';               
             }
  
           }

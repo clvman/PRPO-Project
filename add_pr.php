@@ -156,96 +156,11 @@
 
 			$pr_status = 0;
 			$user_email = $_SESSION['email'];
-			// $attach = "";
-			// if($_FILES["fileToUpload"]["name"]) {
-			// 	$attach = $_FILES["fileToUpload"]["name"];
-			// }
-
-			// if($_FILES["fileToUpload"]["name"]) {
-			// 	$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note')";
-			// } else {
-			// 	$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$note')";
-			// }	
-			
-		 $query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note, pr_step, pr_status, pr_reporting_to, pr_email_to, user_email_to, ueser_report_to, user_level)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note', '$pr_step', '$pr_status', '$pr_reporting_to', '$pr_email', '$user_email', '$user_report_to', '$user_level')";
-			// $query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note, pr_step, pr_stat)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note')";			
-			// print_r($query);
+		 	$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note, pr_step, pr_status, pr_reporting_to, pr_email_to, user_email_to, user_report_to, user_level) VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note', '$pr_step', '$pr_status', '$pr_reporting_to', '$pr_email', '$user_email', '$user_report_to', '$user_level')";		
 			$result = mysqli_query($con,$query);
-			print_r("fdafdsa");
-			print_r('    ' . $result);
 			if($result){
 				echo "<script>alert('Purchase request successfully');window.location = 'all_pr.php';</script>" ;
-			}
-
-			// PR Logic starts her
-
-			// get the user's team
-
-			// $current_username = $_SESSION['PRPO_Current_User'];
-			// $sql_users_team="Select * from `users` where  `username` ='$current_username' " ;
-			// $query_1 = mysqli_query($con,$sql_users_team);
-			// $row_1=mysqli_fetch_assoc($query_1);
-			// $user_team=$row_1['team'];
-
-			// from the team name, get the approval level
-
-			// $sql_team_approval_level="Select * from `approvals` where  `team` ='$user_team' " ;
-			// $query_2 = mysqli_query($con,$sql_team_approval_level);
-			// //$row_2=mysqli_fetch_assoc($query_2);
-			// $all_the_team_levels = array();
-			// while($row_2=mysqli_fetch_assoc($query_2)){
-			// 	$all_the_team_levels[] = $row_2['level'];
-  			// }
-
-			// if(empty($all_the_team_levels)) {
-			// 	echo "<script>alert('You Are not assigned to create PR!');window.location = 'add_pr.php';</script>" ;
-			// } else {
-			// 	//checking if level 1 and level 2 are in all_the_team_levels array
-			// 	if (  (in_array("1", $all_the_team_levels))   && (in_array("2", $all_the_team_levels))   ) {
-			// 		echo "the PR is pending level3 and sent email";
-			// 		// add details to submitted PR
-			// 		if($_FILES["fileToUpload"]["name"]) {
-			// 			$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note')";
-			// 		} else {
-			// 			$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$note')";
-			// 		}
-			// 		$result = mysqli_query($con,$query);
-			// 		// now, add to current stage
-			// 		$query_current_stage = "INSERT into `current_stage` ( `pr_code`, `current_approval_level`,  `username`, `status`)VALUES ('$pr_id','3','$owner','Pending')";
-			// 		$result_current_stage = mysqli_query($con,$query_current_stage);
-			// 		if($result){
-			// 				echo "<script>alert('Purchase request successfully');window.location = 'all_pr.php';</script>" ;
-			// 		}
-			// 	} elseif (in_array("1", $all_the_team_levels)) { //checking if level 1 is in all_the_team_levels array
-			// 		echo "the PR is pending level2 and sent email";
-			// 		// add details to submitted PR
-			// 		if($_FILES["fileToUpload"]["name"]) {
-			// 			$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note')";
-			// 		} else {
-			// 			$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$note')";
-			// 		}
-	       	// 		$result = mysqli_query($con,$query);
-			// 		// now, add to current stage
-			// 		$query_current_stage = "INSERT into `current_stage` ( `pr_code`, `current_approval_level`,  `username`, `status`)VALUES ('$pr_id','2','$owner','Pending')";
-			// 		$result_current_stage = mysqli_query($con,$query_current_stage);
-			// 		// if($result){
-			// 		// 	echo "<script>alert('Purchase request successfully');window.location = 'all_pr.php';</script>" ;
-			// 		// }
-  			// 	} else {
-			// 		$x=1;
-			// 	}
-			// }
-
-		    // if($_FILES["fileToUpload"]["name"]) {
-	     	//    	$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, attach, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$attach', '$note')";
-		    // } else {
-	     	//    	$query = "INSERT into `submitted_pr` (pr_code, requester, request_date, currency, require_company, supplier, tasc_site_code, net_amount, items, items_array, note)VALUES ('$pr_id', '$owner', '$owner_date', '$currency', '$company', '$supplier', '$tasc_site', '$net_amount_input', '$location', '$table_data', '$note')";
-		    // }
-	        // $result = mysqli_query($con,$query);
-
-	        // if($result){
-		 	// 	echo "<script>alert('Purchase request successfully');window.location = 'all_pr.php';</script>" ;
-		    // }		    
+			}		    
     }else{
 ?>						
 							
@@ -277,12 +192,12 @@
 
 					<label class="col-lg-1 col-form-label">Request Date:</label>
 					<div class="col-lg-3">
-						<input required name="owner_date" readonly  type="text" class="form-control" value="<?php echo date("Y-m-d") ?>" >
+						<input required name="owner_date" readonly  type="text" class="form-control" value="<?php echo date("Y-m-d h:i:sa") ?>" >
 					</div>											
 
 					<!--Ticket Subject ends -->
 					<!--Ticket start datetime START Hidden -->									
-					<input hidden name="created_on" type="text" class="form-control"   value="<?php echo date("Y-m-d H:i:s"); ?>">
+					<input hidden name="created_on" type="text" class="form-control"   value="<?php echo date("Y-m-d h:i:sa"); ?>">
 					<!--Ticket start datetime END -->
 					<!--Ticket status START -->
 				</div>
