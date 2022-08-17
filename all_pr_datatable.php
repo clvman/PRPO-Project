@@ -40,7 +40,7 @@
          default: $status = ""; break;
       }
       if($row['pr_status'] == 2 || $row['pr_status'] == 3) {
-
+         $edit = '<a href="edit_purchase.php?id=' . $row['id'] . '"><i class="fas fa-eye"></i></a>';
       } else {
          $edit = '<a href="view_purchase.php?id=' . $row['id'] . '"><i class="fas fa-eye"></i></a>';
       }

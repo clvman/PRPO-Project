@@ -16,7 +16,8 @@
     float: right;
   }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="assets/plugins/general/jquery/dist/jquery.js" type="text/javascript"></script>
 <!-- <script src="./assets/js/jquery-3.5.1.min.js"></script> -->
   <!-- begin::Body -->
   <body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">

@@ -301,7 +301,7 @@
           for($i = $user_level; $i <= 8; $i++){
             if($i == $user_level) {
               echo '<li>';
-                if($request_date == NULL || $request_date == "0000-00-00") {
+                if($request_date == NULL || $request_date == "0000-00-00 00:00:00") {
                   echo '<a target="_blank">' . $requester . '</a>';
                 } else {
                   echo '<a target="_blank">' . $requester . ' (' . $request_date . ')</a>';
@@ -326,7 +326,7 @@
               echo '<li>';
                 // echo '<a target="_blank">' . $manager . '</a>';
                 // echo '<a>' . $dateArray[$i] . '</a>';
-                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
+                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00 00:00:00") {
                   echo '<a target="_blank">' . $manager . '</a>';
                 } else {
                   echo '<a target="_blank">' . $manager . ' (' . $dateArray[$i] . ')</a>';
@@ -360,7 +360,7 @@
               echo '</li>'; 
             } else if($i == 8) {
               echo '<li>';
-                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
+                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00 00:00:00") {
                   echo '<a target="_blank">Final</a>';
                 } else {
                   echo '<a target="_blank">Final (' . $dateArray[$i] . ')</a>';
