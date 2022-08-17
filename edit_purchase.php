@@ -651,6 +651,79 @@
 			$("#net_amount").text(net_amount);
 			$("#table_data").val(JSON.stringify(table_data));						
 		})
+
+        $('#location').val($('#items').val());
+			var searchQuery = $('#location').val();
+			$.ajax({
+				url:"live_search.php",
+				method:"POST",
+				dataType: "json",
+				data:{query: searchQuery},
+				success:function(response) {
+					var tbody_content = "";
+					var netAmount = 0;
+					var table_data_array = [];
+					var table_json = $("#table_data").val();
+					// var table_array = JSON.parse($("#table_data").val());
+
+					if(response.length > 0) {
+						if(table_json != '') {
+							var table_array = JSON.parse(table_json);
+							for(var i = 0; i < response.length; i++) {
+								for(var j = 0; j < table_array.length; j++) {
+									if(response[i]['id'] == table_array[j]['id']) {
+										response[i] = table_array[j];
+										break;
+									}
+								}
+							}
+						}
+
+						for(var i = 0; i < response.length; i++) {
+							var item_array = response[i];
+							// quantity input tag
+							var quantity_input = "<input required type='number' class='qty_input form-control col-4' min='1'  name='qty_id' value='" +response[i]['Qty']+"'/>";
+
+							var rate_content = "";
+							var rate_td = "";
+							var total = 0;
+
+							if(response[i]['Agreement'] == "No") {
+								rate_content = "<input required type='number' class='rate_input form-control col-4' min='1'  name='rate_id' value='1' />";
+								rate_td = "<td class='rate_td' data='1'>"+rate_content+"</td>";
+								total = response[i]['Qty'];
+							} else {
+								// rate input tag
+								rate_content = response[i]['Rate'];
+								rate_td = "<td class='rate_td' data="+response[i]['Rate']+">"+rate_content+"</td>";
+								total = response[i]['Qty'] * response[i]['Rate'];								
+							}
+
+							tbody_content += "<tr class='items' row-id='"+response[i]["id"]+"'>"+
+												"<td>"+response[i]['material_code']+"</td>"+
+												"<td>"+response[i]['item_description']+"</td>"+
+												"<td>"+response[i]['Agreement']+"</td>"+
+												"<td class='qty_td' data="+response[i]['Qty']+">"+quantity_input+"</td>"+
+												rate_td+
+												// "<td>"+response[i]['Amount']+"</td>"+
+												"<td class='total'>"+total+"</td>"+
+											"</tr>";
+							netAmount += parseInt(total);
+							item_array['total'] = total;
+							table_data_array.push(item_array);
+						}
+					}
+					$("#net_amount_input").val(netAmount);
+					$("#table_data").val(JSON.stringify(table_data_array));
+					$("#tbodyid").html(tbody_content);
+
+					if(netAmount == 0) {
+						$("#net_amount").text('');
+					} else {
+						$("#net_amount").text(netAmount);
+					}
+				}
+			});
 	});
 </script>
 

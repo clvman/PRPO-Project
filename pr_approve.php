@@ -303,7 +303,7 @@
           for($i = $user_level; $i <= 8; $i++){
             if($i == $user_level) {
               echo '<li>';
-                if($request_date == NULL || $request_date == "0000-00-00") {
+                if($request_date == NULL || $request_date == "0000-00-00 00:00:00") {
                   echo '<a target="_blank">' . $requester . '</a>';
                 } else {
                   echo '<a target="_blank">' . $requester . ' (' . $request_date . ')</a>';
@@ -325,7 +325,7 @@
                 }
               }
               echo '<li>';
-                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00") {
+                if($dateArray[$i] == NULL || $dateArray[$i] == "0000-00-00 00:00:00") {
                   echo '<a target="_blank">' . $manager . '</a>';
                 } else {
                   echo '<a target="_blank">' . $manager . ' (' . $dateArray[$i] . ')</a>';
@@ -376,7 +376,7 @@
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
+          <h4 class="modal-title">Reject</h4>
           <button type="button" class="close" data-dismiss="modal"></button>
         </div>
         <!-- Modal body -->
@@ -409,7 +409,7 @@
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
+          <h4 class="modal-title">Request More Infor</h4>
           <button type="button" class="close" data-dismiss="modal"></button>
         </div>
         <!-- Modal body -->
